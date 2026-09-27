@@ -78,3 +78,7 @@ ansible-playbook site.yml --ask-vault-pass
   в libvirt не работает между пулами.
 - `host_key_checking` выключен в `ansible.cfg` — ВМ часто пересоздаются.
 - Стейт локальный, бэкенда нет.
+
+## Лицензия
+
+[MIT](LICENSE).
