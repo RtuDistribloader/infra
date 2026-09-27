@@ -3,7 +3,36 @@
 Terraform поднимает ВМ в локальном libvirt, Ansible настраивает их: Docker +
 контейнер nginx, отвечающий `IP <адрес> is alive` на порту 80.
 
-Зависимости: qemu, libvirt (`qemu:///system`), terraform, ansible.
+## Зависимости
+
+На управляющей машине:
+
+| что | зачем |
+|---|---|
+| `qemu-system-x86` + KVM (`/dev/kvm`) | домены создаются с `type = "kvm"` |
+| `libvirt`, демон на `qemu:///system` | URI зашит в [terraform.tf](terraform.tf) |
+| `dnsmasq` | DHCP сети `default`: Terraform берёт адреса ВМ из лизов |
+| `terraform` >= 1.3 (или OpenTofu) | версии провайдеров — в `.terraform.lock.hcl` |
+| `ansible-core` + клиент `openssh` | коллекции ставит `ansible-galaxy` (см. ниже) |
+| SSH-ключ `~/.ssh/id_ed25519.pub` | уходит в cloud-init; путь меняет `ssh_public_key_file` |
+
+Arch: `pacman -S qemu-system-x86 libvirt dnsmasq terraform ansible-core`.
+
+Сам libvirt тоже надо подготовить — нужны активные пул и сеть с именем
+`default` и доступ к системному сокету без root:
+
+```sh
+sudo systemctl enable --now libvirtd
+sudo virsh pool-start default  && sudo virsh pool-autostart default
+sudo virsh net-start default   && sudo virsh net-autostart default
+sudo usermod -aG libvirt $USER   # применится после перелогина
+```
+
+На самих ВМ ставить руками нечего: `python3` и cloud-init уже есть в образе,
+остальное доводят роли. Но выход в интернет нужен и хосту (образ Ubuntu ~600 МБ,
+реестр Terraform, Galaxy), и ВМ (apt, `download.docker.com`, Docker Hub).
+Место на диске — базовый образ плюс `disk_gb` на каждую ВМ (qcow2 растёт по
+мере заполнения), память — `ram_gb` на каждую запущенную ВМ.
 
 ## Что заполнить
 
