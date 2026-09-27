@@ -1,0 +1,28 @@
+---
+- name: Configure all virtual machines
+  hosts: vms
+  become: true
+  # Facts are gathered by hand below: the default gather_facts runs before
+  # pre_tasks and would fail on a VM that is still booting.
+  gather_facts: false
+
+  pre_tasks:
+    - name: Wait for SSH to come up
+      ansible.builtin.wait_for_connection:
+        timeout: 300
+      become: false
+
+    # cloud-init runs "package_update: true" and holds the apt lock while it
+    # does, so the apt tasks in common would fail without this.
+    - name: Wait for cloud-init to finish
+      ansible.builtin.command:
+        cmd: cloud-init status --wait
+      changed_when: false
+
+    - name: Gather facts
+      ansible.builtin.setup:
+
+  roles:
+    - common
+    - docker
+    - nginx

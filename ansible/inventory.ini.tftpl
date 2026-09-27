@@ -1,0 +1,7 @@
+[vms]
+%{ for name, ip in vms ~}
+${name} ansible_host=${ip}
+%{ endfor ~}
+
+[vms:vars]
+ansible_user=${user}

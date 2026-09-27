@@ -1,0 +1,10 @@
+---
+nginx_image: nginx:1.27-alpine
+nginx_container_name: nginx-alive
+nginx_port: 80
+nginx_project_dir: /opt/nginx-alive
+
+# Address the host advertises in its response. Falls back to the inventory
+# address if fact gathering could not work out a default route.
+nginx_advertised_ip: "{{ ansible_facts['default_ipv4']['address'] | default(ansible_host) }}"
+nginx_message: "IP {{ nginx_advertised_ip }} is alive"

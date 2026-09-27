@@ -1,0 +1,12 @@
+#cloud-config
+# Minimal bootstrap: just enough for Ansible to log in.
+# Everything else is configured by ansible/roles/common.
+users:
+  - name: ${user}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+package_update: true
+packages:
+  - python3

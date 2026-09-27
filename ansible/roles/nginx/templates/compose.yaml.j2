@@ -1,0 +1,9 @@
+services:
+  nginx:
+    image: {{ nginx_image }}
+    container_name: {{ nginx_container_name }}
+    restart: unless-stopped
+    ports:
+      - "{{ nginx_port }}:{{ nginx_port }}"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro

@@ -1,0 +1,19 @@
+---
+# Docker CE from the official Docker apt repository.
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
+
+# Users that get the "docker" group (so they can run docker without sudo).
+docker_users:
+  - "{{ ansible_user }}"
+
+# Private registry login. Leave docker_registry_token empty to skip the login.
+# For GitHub Container Registry the token is a classic PAT with read:packages.
+# Put the real values in an ansible-vault file (see group_vars/vms/vault.yml.example).
+docker_registry: ghcr.io
+docker_registry_username: ""
+docker_registry_token: ""

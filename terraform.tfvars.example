@@ -1,0 +1,15 @@
+virtual_machines = {
+  wrk1 = {
+    cores   = 2
+    ram_gb  = 2
+    disk_gb = 30
+  }
+  wrk2 = {
+    cores   = 2
+    ram_gb  = 2
+    disk_gb = 30
+  }
+}
+
+# ssh_user            = "ansible"
+# ssh_public_key_file = "~/.ssh/id_ed25519.pub"

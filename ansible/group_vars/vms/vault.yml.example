@@ -1,0 +1,7 @@
+---
+# Copy to group_vars/vms/vault.yml and encrypt:
+#   cp group_vars/vms/vault.yml.example group_vars/vms/vault.yml
+#   ansible-vault encrypt group_vars/vms/vault.yml
+# Then run: ansible-playbook site.yml --ask-vault-pass
+docker_registry_username: your-github-username
+docker_registry_token: ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

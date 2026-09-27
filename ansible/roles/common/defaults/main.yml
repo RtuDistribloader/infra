@@ -1,0 +1,11 @@
+---
+common_timezone: "UTC"
+
+common_packages:
+  - curl
+  - git
+  - htop
+  - vim
+
+# Extra authorized keys for the login user (in addition to the one from cloud-init).
+common_extra_ssh_keys: []

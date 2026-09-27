@@ -1,0 +1,12 @@
+---
+# Runs as each user in docker_users so credentials land in their ~/.docker/config.json.
+# Unconditional: docker login is cheap and overwriting an existing entry with
+# the same credentials is a no-op, hence changed_when: false.
+- name: Log in to {{ docker_registry }}
+  ansible.builtin.command:
+    cmd: docker login {{ docker_registry }} --username {{ docker_registry_username }} --password-stdin
+    stdin: "{{ docker_registry_token }}"
+  become_user: "{{ item }}"
+  loop: "{{ docker_users }}"
+  changed_when: false
+  no_log: true

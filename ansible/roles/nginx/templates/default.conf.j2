@@ -1,0 +1,9 @@
+server {
+    listen {{ nginx_port }} default_server;
+    server_name _;
+
+    location / {
+        default_type text/plain;
+        return 200 "{{ nginx_message }}\n";
+    }
+}

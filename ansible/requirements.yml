@@ -1,0 +1,5 @@
+---
+collections:
+  - name: ansible.posix      # authorized_key
+  - name: community.general  # timezone
+  - name: community.docker   # docker_compose_v2

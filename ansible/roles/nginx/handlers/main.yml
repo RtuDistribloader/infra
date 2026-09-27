@@ -1,0 +1,7 @@
+---
+# nginx reads its config when the container starts, so a changed bind-mounted
+# file only takes effect after a restart.
+- name: Restart the nginx stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ nginx_project_dir }}"
+    state: restarted

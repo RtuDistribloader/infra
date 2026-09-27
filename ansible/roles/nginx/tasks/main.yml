@@ -1,0 +1,25 @@
+---
+- name: Create the project directory
+  ansible.builtin.file:
+    path: "{{ nginx_project_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Render the nginx site config
+  ansible.builtin.template:
+    src: default.conf.j2
+    dest: "{{ nginx_project_dir }}/default.conf"
+    mode: "0644"
+  notify: Restart the nginx stack
+
+- name: Render the compose file
+  ansible.builtin.template:
+    src: compose.yaml.j2
+    dest: "{{ nginx_project_dir }}/compose.yaml"
+    mode: "0644"
+  notify: Restart the nginx stack
+
+- name: Bring the nginx stack up
+  community.docker.docker_compose_v2:
+    project_src: "{{ nginx_project_dir }}"
+    state: present
